@@ -382,7 +382,7 @@
         if (event.target?.dataset?.delete) {
             document.getElementById(event.target.dataset.delete).remove()
         } else if (event.target?.dataset?.autocomplete) {
-            event.target.value === "on" ? autoComplete() : reset()
+            event.target.checked ? autoComplete() : reset()
         }
     })
 
