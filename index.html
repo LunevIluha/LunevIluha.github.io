@@ -69,6 +69,7 @@
         <label for="pasport-strahovatelya-sovpadaet-s-pasportom-sobstvennika">Совпадает с паспортом собственника (если
             совпадает - заполнять не надо)</label>
         <input type="checkbox" name="pasport-strahovatelya-sovpadaet-s-pasportom-sobstvennika"
+               data-autoComplete = "true"
                id="pasport-strahovatelya-sovpadaet-s-pasportom-sobstvennika"
                placeholder="Совпадает с паспортом собственника">
 
@@ -264,6 +265,22 @@
 <script>
     let driverId = 2
 
+    const mappingFields = {
+        "pasport-sobstvennika-surname-name": "pasport-strahovatelya-surname-name",
+        "pasport-sobstvennika-first-name": "pasport-strahovatelya-first-name",
+        "pasport-sobstvennika-last-name": "pasport-strahovatelya-last-name",
+        "pasport-sobstvennika-birthday": "pasport-strahovatelya-birthday",
+        "pasport-sobstvennika-birthday-place": "pasport-strahovatelya-birthday-place",
+        "pasport-sobstvennika-passport-seria": "pasport-strahovatelya-passport-seria",
+        "pasport-sobstvennika-passport-number": "pasport-strahovatelya-passport-number",
+        "pasport-sobstvennika-kem-vydan": "pasport-strahovatelya-kem-vydan",
+        "pasport-sobstvennika-data-vydachi-passporta": "pasport-strahovatelya-data-vydachi-passporta",
+        "pasport-sobstvennika-code-podrazdeleniya": "pasport-strahovatelya-code-podrazdeleniya",
+        "pasport-sobstvennika-semeinoe-polozhjenie": "pasport-strahovatelya-semeinoe-polozhjenie",
+        "pasport-sobstvennika-mesto-propiski-kak-v-pasporte": "pasport-strahovatelya-mesto-propiski-kak-v-pasporte",
+        "pasport-sobstvennika-fakticheskoe-mesto-zhitelstva": "pasport-strahovatelya-fakticheskoe-mesto-zhitelstva"
+    }
+
     const fields = [
         {
             label: "Фамилия",
@@ -364,8 +381,25 @@
     document.addEventListener("click", function (event) {
         if (event.target?.dataset?.delete) {
             document.getElementById(event.target.dataset.delete).remove()
+        } else if (event.target?.dataset?.autocomplete) {
+            event.target.value === "on" ? autoComplete() : reset()
         }
     })
+
+    function autoComplete() {
+        Object.keys(mappingFields).forEach(key => {
+            const from = document.getElementById(key)
+            const to = document.getElementById(mappingFields[key])
+
+            to.value = from.value
+        })
+    }
+
+    function reset() {
+        Object.keys(mappingFields).forEach(key => {
+            document.getElementById(mappingFields[key]).value = ""
+        })
+    }
 </script>
 
 </html>
