@@ -179,6 +179,14 @@
                id="voditelskoe-udostoverenie-predydushchee-voditelskoe-udostoverenie-number"
                placeholder="Номер">
 
+        <div id="added-drivers">
+
+        </div>
+
+        <hr>
+
+        <button type="button" onclick="addDriver()">Добавить водителя</button>
+
         <h2>Свидетельство о регистрации транспортного средства</h2>
         <label for="svidetelstvo-o-registracii-transportnogo-sredstva-gos-nomer">Гос номер</label>
         <input type="text" name="svidetelstvo-o-registracii-transportnogo-sredstva-gos-nomer"
@@ -252,4 +260,112 @@
     <input type="submit" value="Отправить">
 </form>
 </body>
+
+<script>
+    let driverId = 2
+
+    const fields = [
+        {
+            label: "Фамилия",
+            id: "voditelskoe-udostoverenie-surname-name",
+            type: "text"
+        },
+        {
+            label: "Имя",
+            id: "voditelskoe-udostoverenie-first-name",
+            type: "text"
+        },
+        {
+            label: "Отчество",
+            id: "voditelskoe-udostoverenie-last-name",
+            type: "text"
+        },
+        {
+            label: "Дата рождения",
+            id: "voditelskoe-udostoverenie-birthday",
+            type: "date"
+        },
+        {
+            label: "Место рождения",
+            id: "voditelskoe-udostoverenie-birthday-place",
+            type: "text"
+        },
+        {
+            label: "Дата выдачи водительского удостоверения",
+            id: "voditelskoe-udostoverenie-data-vydachi-voditelskogo-udostovereniya",
+            type: "date"
+        },
+        {
+            label: "Серия",
+            id: "voditelskoe-udostoverenie-seria",
+            type: "number"
+        },
+        {
+            label: "Номер",
+            id: "voditelskoe-udostoverenie-number",
+            type: "number"
+        },
+        {
+            label: "Дата начала стажа категории В (на ВУ нового образца указано на обратной стороне)",
+            id: "voditelskoe-udostoverenie-data-nachala-stazha-kategorii-V",
+            type: "date"
+        },
+        {
+            label: "Предыдущее водительское удостоверение (серия)",
+            id: "voditelskoe-udostoverenie-predydushchee-voditelskoe-udostoverenie-seriya",
+            type: "number"
+        },
+        {
+            label: "Предыдущее водительское удостоверение (номер)",
+            id: "voditelskoe-udostoverenie-predydushchee-voditelskoe-udostoverenie-number",
+            type: "number"
+        }
+    ]
+
+    function addDriver() {
+        const wrapperDrivers = document.getElementById("added-drivers")
+        const driverWrapper = document.createElement("div")
+        const title = document.createElement("h3")
+        const deleteBtn = document.createElement("button")
+
+        deleteBtn.setAttribute("type", "button")
+        deleteBtn.setAttribute("data-delete", driverId)
+        deleteBtn.innerText = "Удалить водителя"
+
+        title.innerText = `Водитель - ${driverId}`
+
+        driverWrapper.insertAdjacentElement("afterbegin", title)
+
+        driverWrapper.setAttribute("id", driverId.toString())
+
+        for (let i = 0; i < fields.length; i++) {
+            const {label: elLabel, id, type} = fields[i]
+            const label = document.createElement("label")
+            label.setAttribute("for", id + "-" + driverId)
+            label.innerText = elLabel
+
+            const input = document.createElement("input")
+            input.setAttribute("type", type)
+            input.setAttribute("name", id + "-" + driverId)
+            input.setAttribute("id", id + "-" + driverId)
+            input.setAttribute("placeholder", elLabel)
+
+            driverWrapper.insertAdjacentElement("beforeend", label)
+            driverWrapper.insertAdjacentElement("beforeend", input)
+
+            wrapperDrivers.insertAdjacentElement("beforeend", driverWrapper)
+        }
+
+        driverWrapper.insertAdjacentElement("beforeend", deleteBtn)
+
+        driverId += 1
+    }
+
+    document.addEventListener("click", function (event) {
+        if (event.target?.dataset?.delete) {
+            document.getElementById(event.target.dataset.delete).remove()
+        }
+    })
+</script>
+
 </html>
